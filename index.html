@@ -60,4 +60,267 @@
 
         .main-title {
             color: #1a365d;
-            font
+            font-size: 24px;
+            font-weight: bold;
+            margin: 12px 0 6px 0;
+        }
+
+        .main-title sup {
+            font-size: 0.65em;
+            vertical-align: super;
+        }
+
+        .box-title {
+            color: #2b6cb0;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #4a5568;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .box-container {
+            margin: 30px auto 20px auto;
+            width: 500px;  
+            height: 500px; 
+            cursor: pointer;
+            position: relative;
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ffffff 0%, #1a365d 80%, #0d2040 100%);
+            border: 4px solid #f6ad55;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(13, 32, 64, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .box:hover {
+            transform: scale(1.04);
+            box-shadow: 0 20px 35px rgba(13, 32, 64, 0.7);
+        }
+
+        .box-logo {
+            max-width: 100%;
+            max-height: 100%;
+            min-width: 300px; 
+            min-height: 300px; 
+            object-fit: contain;
+            border-radius: 12px;
+            pointer-events: none;
+        }
+
+        .prize-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 280px;
+            max-width: 85vw;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 3px solid #f6ad55;
+        }
+
+        .prize-popup.active {
+            transform: translate(-50%, -105%) scale(1.05);
+            opacity: 1;
+        }
+
+        .prize-popup img {
+            max-width: 100%;    
+            max-height: 220px;  
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;     
+            object-fit: contain;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(2px, 2px) rotate(0deg); }
+            10% { transform: translate(-3px, -2px) rotate(-3deg); }
+            20% { transform: translate(-4px, 0px) rotate(3deg); }
+            30% { transform: translate(3px, 3px) rotate(0deg); }
+            40% { transform: translate(2px, -2px) rotate(3deg); }
+            50% { transform: translate(-2px, 3px) rotate(-3deg); }
+            60% { transform: translate(-4px, 2px) rotate(0deg); }
+            70% { transform: translate(3px, 2px) rotate(-3deg); }
+            80% { transform: translate(-2px, -2px) rotate(3deg); }
+            90% { transform: translate(3px, 3px) rotate(0deg); }
+            100% { transform: translate(2px, -2px) rotate(0deg); }
+        }
+
+        .shaking {
+            animation: shake 0.25s infinite;
+            pointer-events: none;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 24px; 
+            font-weight: bold;
+            color: #e53e3e; 
+            min-height: 40px;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="school-header">
+            <!-- Used %20 for spaces to prevent GitHub link breaks -->
+            <img src="School%20badge.png" alt="School Badge" class="school-badge">
+            <div class="school-name">
+                <div class="school-name-en">St. Stephen’s Girls’ College</div>
+                <div class="school-name-zh">聖士提反女子中學</div>
+            </div>
+        </div>
+
+        <h1 class="main-title">
+            <div>120<sup>th</sup> Anniversary Open Day</div>
+            <div>一百二十周年校慶開放日</div>
+        </h1>
+        <div class="box-title">🎁 幸運盲盒 Fortune Mystery Box 🎁</div>
+        <div class="subtitle">點擊開啓或重設盲盒 Click box to open or reset</div>
+   </div>
+ 
+   <div class="box-container" id="boxContainer" onclick="handleBoxClick()">
+       <div class="box" id="blindBox">
+           <!-- Used %20 for spaces to prevent GitHub link breaks -->
+           <img src="120%20logo.png" alt="120 Logo" class="box-logo">
+       </div>
+       
+       <div class="prize-popup" id="prizePopup">
+           <img id="popupImg" src="" alt="Prize Graphic">
+       </div>
+   </div>
+ 
+   <div id="result"></div>
+
+<script>
+    // These must exactly match the capitalization of your uploaded files
+    const prizes = [
+        { image: "IDcover.png", weight: 10 },
+        { image: "Magnet.png", weight: 10 },
+        { image: "Wclip.png", weight: 20 },
+        { image: "Sclip.png", weight: 20 },
+        { image: "CSBookmark.png", weight: 10 },
+        { image: "Maths.png", weight: 20 },
+        { image: "Physics.png", weight: 10 }
+    ];
+
+    prizes.forEach(prize => {
+        const img = new Image();
+        img.src = prize.image;
+    });
+ 
+    let isDrawing = false;
+    let isOpen = false;
+    let audioCtx; 
+    
+    const box = document.getElementById('blindBox');
+    const resultDiv = document.getElementById('result');
+    const prizePopup = document.getElementById('prizePopup');
+    const popupImg = document.getElementById('popupImg');
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    }
+
+    function playShakeSound() {
+        initAudio();
+        for (let i = 0; i < 12; i++) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'square'; 
+            osc.frequency.value = 80 + (Math.random() * 40); 
+            
+            const startTime = audioCtx.currentTime + (i * 0.1);
+            gain.gain.setValueAtTime(0.05, startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.08);
+            
+            osc.start(startTime);
+            osc.stop(startTime + 0.1);
+        }
+    }
+
+    function playWinSound() {
+        initAudio();
+        const notes = [261.63, 329.63, 392.00, 523.25];
+        const now = audioCtx.currentTime;
+        
+        notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            
+            const startTime = now + (i * 0.1); 
+            gain.gain.setValueAtTime(0, startTime);
+            gain.gain.linearRampToValueAtTime(0.2, startTime + 0.05);
+            
+            const duration = (i === notes.length - 1) ? 1.5 : 0.2; 
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+            
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+        });
+    }
+ 
+    function handleBoxClick() {
+        if (isDrawing) return; 
+        
+        if (isOpen) {
+            closeBox();
+        } else {
+            openBox();
+        }
+    }
+
+    function openBox() {
+        isDrawing = true;
+        
+        resultDiv.style.color = "#2b6cb0"; 
+        resultDiv.innerHTML = "驚喜準備中... Surprise in Preparation...";
+        
+        box.classList.add('shaking');
+        playShakeSound();
+
+        const wonPrize = drawPrize();
+        popupImg.src = wonPrize.image;
+
+        setTimeout(() => {
+            box.classList.remove('shaking');
