@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎁 St. Stephen's Girls' College - 120th Anniversary Open Day Fortune Mystery Box 🎁</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="https://jsdelivr.net"></script>
     
     <style>
         body {
@@ -85,38 +85,40 @@
         
         .box-container {
             margin: 30px auto 20px auto;
-            width: 500px;  /* Changed from 220px */
-            height: 500px; /* Changed from 220px */
+            width: 500px;
+            height: 500px;
             cursor: pointer;
             position: relative;
         }
-  .box {
-    width: 100%;
-    height: 100%;
-    /* White in the center radiating out to Navy Blue on the edges */
-    background: radial-gradient(circle, #ffffff 0%, #1a365d 80%, #0d2040 100%);
-    border: 4px solid #f6ad55;
-    border-radius: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 15px 30px rgba(13, 32, 64, 0.5);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
-    padding: 15px;
-    box-sizing: border-box;
-}
-       .box:hover {
-           transform: scale(1.04);
-           box-shadow: 0 20px 35px rgba(13, 32, 64, 0.7);
-       }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ffffff 0%, #1a365d 80%, #0d2040 100%);
+            border: 4px solid #f6ad55;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(13, 32, 64, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .box:hover {
+            transform: scale(1.04);
+            box-shadow: 0 20px 35px rgba(13, 32, 64, 0.7);
+        }
+
         .box-logo {
             max-width: 100%;
             max-height: 100%;
-            min-width: 300px; /* Increased from 100px */
-            min-height: 300px; /* Increased from 100px */
+            min-width: 300px;
+            min-height: 300px;
             object-fit: contain;
             border-radius: 12px;
             pointer-events: none;
@@ -146,14 +148,15 @@
         }
 
         .prize-popup img {
-    max-width: 100%;     /* Prevents image from overflowing the sides */
-    max-height: 220px;   /* Limits how tall the image can get */
-    height: auto;
-    border-radius: 10px;
-    display: block;
-    margin: 0 auto;      /* Centers the image inside the popup */
-    object-fit: contain;
-}
+            max-width: 100%;
+            max-height: 220px;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+
         @keyframes shake {
             0% { transform: translate(2px, 2px) rotate(0deg); }
             10% { transform: translate(-3px, -2px) rotate(-3deg); }
@@ -167,42 +170,17 @@
             90% { transform: translate(3px, 3px) rotate(0deg); }
             100% { transform: translate(2px, -2px) rotate(0deg); }
         }
+
         .shaking {
             animation: shake 0.25s infinite;
             pointer-events: none;
         }
 
-        .btn {
-            padding: 14px 40px;
-            font-size: 18px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 6px 18px rgba(56, 161, 105, 0.4);
-            transition: all 0.2s;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(56, 161, 105, 0.5);
-        }
-        .btn:active {
-            transform: translateY(1px);
-        }
-        .btn:disabled {
-            background: #cbd5e0 !important;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
         #result {
             margin-top: 25px;
-            font-size: 24px; /* Slightly larger text for emphasis */
+            font-size: 24px;
             font-weight: bold;
-            color: #e53e3e; /* Changed to an exciting red/orange color */
+            color: #e53e3e;
             min-height: 40px;
             padding: 0 20px;
         }
@@ -219,178 +197,116 @@
             </div>
         </div>
 
-<h1 class="main-title">
-    <div>120<sup>th</sup> Anniversary Open Day</div>
-    <div>一百二十周年校慶開放日</div>
-</h1>
+        <h1 class="main-title">
+            <div>120<sup>th</sup> Anniversary Open Day</div>
+            <div>一百二十周年校慶開放日</div>
+        </h1>
         <div class="box-title">🎁 幸運盲盒 Fortune Mystery Box 🎁</div>
-        <div class="subtitle">點擊開啓盲盒 Click box to open</div>
-   </div>
+        <div class="subtitle" id="subtitleText">點擊開啓盲盒 Click box to open</div>
+    </div>
  
-   <!-- The Box Cover remains the 120 logo -->
-   <div class="box-container" id="boxContainer" onclick="openBox()">
-       <div class="box" id="blindBox">
-           <img src="120 logo.png" alt="120 Logo" class="box-logo">
-       </div>
-       
-       <!-- The popup image that shows the souvenir -->
-       <div class="prize-popup" id="prizePopup">
-           <img id="popupImg" src="" alt="Prize Graphic">
-       </div>
-   </div>
- 
-   <!-- Replaced the "Open" button with a hidden "Close" button -->
- <div id="result"></div>
-
-<button class="btn" id="closeBtn" onclick="closeBox()" style="display: none; margin: 20px auto;">重設 Reset</button>
-
-<script>
-    const prizes = [
-        { image: "IDcover.png", weight: 20 },
-        { image: "Magnet.png", weight: 10 },
-        { image: "Wclip.png", weight: 10 },
-        { image: "Sclip.png", weight: 10 },
-        { image: "CSBookmark.png", weight: 20 },
-        { image: "Maths.png", weight: 15 },
-        { image: "Physics.png", weight: 15 }
-    ];
-
-    // Preload all prize images immediately to eliminate image swapping flicker
-    prizes.forEach(prize => {
-        const img = new Image();
-        img.src = prize.image;
-    });
- 
-    let isDrawing = false;
-    let isOpen = false;
-    let audioCtx; 
-    
-    const box = document.getElementById('blindBox');
-    const closeBtn = document.getElementById('closeBtn');
-    const resultDiv = document.getElementById('result');
-    const prizePopup = document.getElementById('prizePopup');
-    const popupImg = document.getElementById('popupImg');
-
-    function initAudio() {
-        if (!audioCtx) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        if (audioCtx.state === 'suspended') {
-            audioCtx.resume();
-        }
-    }
-
-    function playShakeSound() {
-        initAudio();
-        for (let i = 0; i < 12; i++) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.type = 'square'; 
-            osc.frequency.value = 80 + (Math.random() * 40); 
-            
-            const startTime = audioCtx.currentTime + (i * 0.1);
-            gain.gain.setValueAtTime(0.05, startTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.08);
-            
-            osc.start(startTime);
-            osc.stop(startTime + 0.1);
-        }
-    }
-
-    function playWinSound() {
-        initAudio();
-        const notes = [261.63, 329.63, 392.00, 523.25];
-        const now = audioCtx.currentTime;
+    <!-- Clicking the box now toggles between opening and resetting -->
+    <div class="box-container" id="boxContainer" onclick="handleBoxClick()">
+        <div class="box" id="blindBox">
+            <img src="120 logo.png" alt="120 Logo" class="box-logo">
+        </div>
         
-        notes.forEach((freq, i) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.type = 'sine';
-            osc.frequency.value = freq;
-            
-            const startTime = now + (i * 0.1); 
-            gain.gain.setValueAtTime(0, startTime);
-            gain.gain.linearRampToValueAtTime(0.2, startTime + 0.05);
-            
-            const duration = (i === notes.length - 1) ? 1.5 : 0.2; 
-            gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-            
-            osc.start(startTime);
-            osc.stop(startTime + duration);
+        <div class="prize-popup" id="prizePopup">
+            <img id="popupImg" src="" alt="Prize Graphic">
+        </div>
+    </div>
+ 
+    <div id="result"></div>
+
+    <script>
+        const prizes = [
+            { image: "IDcover.png", weight: 20 },
+            { image: "Magnet.png", weight: 10 },
+            { image: "Wclip.png", weight: 10 },
+            { image: "Sclip.png", weight: 10 },
+            { image: "CSBookmark.png", weight: 20 },
+            { image: "Maths.png", weight: 15 },
+            { image: "Physics.png", weight: 15 }
+        ];
+
+        // Preload all prize images
+        prizes.forEach(prize => {
+            const img = new Image();
+            img.src = prize.image;
         });
-    }
- 
-    function openBox() {
-        if (isDrawing || isOpen) return;
-        isDrawing = true;
+     
+        let isDrawing = false;
+        let isOpen = false;
+        let audioCtx; 
         
-        resultDiv.style.color = "#2b6cb0"; 
-        resultDiv.innerHTML = "驚喜準備中... Surprise in Preparation...";
-        
-        box.classList.add('shaking');
-        playShakeSound();
+        const box = document.getElementById("blindBox");
+        const prizePopup = document.getElementById("prizePopup");
+        const popupImg = document.getElementById("popupImg");
+        const resultDiv = document.getElementById("result");
+        const subtitleText = document.getElementById("subtitleText");
 
-        const wonPrize = drawPrize();
-
-        // Assign new image immediately while hidden so it is ready before popup opens
-        popupImg.src = wonPrize.image;
-
-        setTimeout(() => {
-            box.classList.remove('shaking');
-            showResult(wonPrize);
-        }, 1200); 
-    }
- 
-    function drawPrize() {
-        const totalWeight = prizes.reduce((sum, prize) => sum + prize.weight, 0);
-        let randomNum = Math.random() * totalWeight;
-        
-        for (let prize of prizes) {
-            if (randomNum < prize.weight) {
-                return prize;
+        function playCelebrationSound() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = "triangle";
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime + idx * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + idx * 0.1);
+                    osc.stop(audioCtx.currentTime + idx * 0.1 + 0.35);
+                });
+            } catch (e) {
+                console.log("Audio not supported or blocked.");
             }
-            randomNum -= prize.weight;
         }
-        return prizes[prizes.length - 1]; 
-    }
- 
-    function showResult(prize) {
-        playWinSound();
 
-        confetti({
-            particleCount: 150,
-            spread: 80,
-            origin: { y: 0.6 },
-            colors: ['#1a365d', '#2b6cb0', '#f6ad55', '#e2e8f0']
-        });
-        
-        prizePopup.classList.add('active');
- 
-        resultDiv.style.color = "#e53e3e";
-        resultDiv.innerHTML = `🎉 恭喜您 Congratulations! 🎉`;
-        
-        isDrawing = false;
-        isOpen = true;
-        closeBtn.style.display = 'inline-block';
-    }
+        function getWeightedPrize() {
+            const totalWeight = prizes.reduce((sum, p) => sum + p.weight, 0);
+            let random = Math.random() * totalWeight;
+            for (const prize of prizes) {
+                if (random < prize.weight) {
+                    return prize;
+                }
+                random -= prize.weight;
+            }
+            return prizes[0];
+        }
 
-    function closeBox() {
-        prizePopup.classList.remove('active');
-        closeBtn.style.display = 'none'; 
-        resultDiv.innerHTML = "";
-        
-        // Clear image source after shrink animation finishes
-        setTimeout(() => {
-            isOpen = false; 
-            popupImg.src = "";
-        }, 300);
-    }
-</script>
-</body>
-</html>
+        // Unified click handler: opens if closed, resets if already open
+        function handleBoxClick() {
+            if (isDrawing) return; // Ignore clicks while shaking
+
+            if (isOpen) {
+                closeBox();
+            } else {
+                openBox();
+            }
+        }
+
+        function openBox() {
+            isDrawing = true;
+            box.classList.add("shaking");
+            subtitleText.innerText = "正在開啓... Opening...";
+
+            setTimeout(() => {
+                box.classList.remove("shaking");
+                const selectedPrize = getWeightedPrize();
+                
+                popupImg.src = selectedPrize.image;
+                prizePopup.classList.add("active");
+                
+                resultDiv.innerText = "🎉 恭喜獲得紀念品！Congratulations! 🎉";
+                subtitleText.innerText = "點擊盲盒重設 Click box to reset";
+                
+                playCelebrationSound();
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
