@@ -1,0 +1,8 @@
+{
+  "name": "SSGC Mystery Box",
+  "short_name": "Mystery Box",
+  "display": "standalone",
+  "start_url": "./index.html",
+  "background_color": "#f0f2f5",
+  "theme_color": "#1a365d"
+}
